@@ -55,6 +55,7 @@ public class CalculatorServlet extends HttpServlet {
             } else {
                 result = a / b;
             }
+            out.println(a + op + b + " = " +result);
             out.println("</body>");
             out.println("</html>");
         }
