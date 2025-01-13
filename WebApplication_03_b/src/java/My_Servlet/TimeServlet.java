@@ -42,6 +42,7 @@ public class TimeServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             LocalDateTime currentDateTime = LocalDateTime.now();
+            out.println("<h1>" +currentDateTime+ "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
