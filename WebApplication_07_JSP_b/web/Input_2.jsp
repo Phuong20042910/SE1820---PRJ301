@@ -1,6 +1,6 @@
 <%-- 
-    Document   : input
-    Created on : Feb 10, 2025, 10:53:48 AM
+    Document   : Input_2
+    Created on : Feb 10, 2025, 11:15:43 AM
     Author     : THANH PHUONG
 --%>
 
@@ -12,9 +12,9 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form action="PrintServlet">
-            n = <input type="text" name="strN"/>
-            <input type="submit" value="Submit"/>
+        <form action="PrintServlet_2">
+            n = <input type="text" name="strN">
+            <input type ="submit" value="Submit">
         </form>
     </body>
 </html>
