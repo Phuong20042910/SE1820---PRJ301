@@ -12,11 +12,14 @@
         <title>LOGIN_PAGE</title>
     </head>
     <body>
+        <%@include file="header.jsp"%>
+        <div style="min-height: 600px; padding: 20px">
         <form action="MainController" method="post">
             <input type="hidden" name="action" value="login"/>
             UserId <input type="text" name="txtUserId"/><br/>
             Password <input type="password" name="txtPassword"/><br/>
             <input type="submit" value="login"/>
         </form>    
+        </div>
     </body>
 </html>
