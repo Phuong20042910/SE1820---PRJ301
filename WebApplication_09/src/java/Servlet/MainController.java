@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "MainController", urlPatterns = {"/MainController"})
 public class MainController extends HttpServlet {
-    private static final String LOGIN_PAGE = "Login.jsp";
+    private static final String LOGIN_PAGE = "login.jsp";
     
     public UserDTO getUser(String strUserId){
         UserDAO udao = new UserDAO();
@@ -32,7 +32,9 @@ public class MainController extends HttpServlet {
     
     public boolean isValidLogin(String strUserId, String strPassword){
         UserDTO user = getUser(strUserId);
- //       if(user != null && user.getPassword().equals(strPassword)){
+        System.out.println(user);
+        System.out.println(strPassword);
+//       if(user != null && user.getPassword().equals(strPassword)){
  //           return true;
  //       } else {
  //           return false;
@@ -54,23 +56,25 @@ public class MainController extends HttpServlet {
         String url = LOGIN_PAGE;
         try {
             String action = request.getParameter("action");
-            System.out.println(action);
+            System.out.println("action: " +action);
             if(action == null){
                 url = LOGIN_PAGE;
             }else{
-                if(action != null && action.equals("login")){
-                    // Login action
-                String strUserId = request.getParameter("strUserId");
-                String strPassword = request.getParameter("strPassword");
-                if(isValidLogin(strUserId, strPassword)){
-                    url = "search.jsp";
-                    UserDTO user = getUser(strUserId);
-                    request.setAttribute("search", user);
-                }else{
-                    url = "invalid.jsp";
+                if(action.equals("login")){
+                    String strUserId = request.getParameter("txtUserId");
+                    String strPassword = request.getParameter("txtPassword");
+                    if(isValidLogin(strUserId, strPassword)){
+                        url = "search.jsp";
+                        UserDTO user = getUser(strUserId);
+                        request.setAttribute("user", user);
+                    }else{
+                        url = "invalid.jsp";
+                    }
+                    }else if(action.equals("logout")){
+                            request.setAttribute("user", null);
+                            url="logout_confirm.jsp";
+                    }
                 }
-                }
-            }
         }catch (Exception e){
             log("Error at MainController: " + e.toString());
         } finally {

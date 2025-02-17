@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>LOGIN_Page</title>
+        <title>LOGIN_PAGE</title>
     </head>
     <body>
         <form action="MainController" method="post">

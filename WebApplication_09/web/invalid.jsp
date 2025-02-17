@@ -1,6 +1,6 @@
 <%-- 
-    Document   : search
-    Created on : Feb 13, 2025, 11:28:16 AM
+    Document   : invalid
+    Created on : Feb 13, 2025, 11:28:33 AM
     Author     : THANH PHUONG
 --%>
 
@@ -12,9 +12,11 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <%
-            
-        %>
-        <h1>Hello World!</h1>
+        <h1>
+            <font color="red">
+                Invalid Username or Password
+            </font>
+        </h1>
+        <a href="login.jsp">Click here to try again</a>
     </body>
 </html>

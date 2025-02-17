@@ -5,6 +5,7 @@
  */
 package utils;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author tungi
  */
-public class DBUtils {
+public class DBUtils implements Serializable{
     private static final String DB_NAME = "prj301_1820_slot8";
     private static final String DB_USERNAME = "sa";
     private static final String DB_PASSWORD= "12345";
