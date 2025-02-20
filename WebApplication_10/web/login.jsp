@@ -4,12 +4,13 @@
     Author     : THANH PHUONG
 --%>
 
+<%@page import = "dto.UserDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Đăng nhập</title>
+        <title>LOGIN_PAGE</title>
         <style>
             .login-container {
                 min-height: 500px;
@@ -100,7 +101,7 @@
                     <%
                         String message = request.getAttribute("message")+ "";
                     %>
-                    <%=message%>
+                    <%=message.equals("null")?"":message%>
                 </form>
             </div>
         </div>

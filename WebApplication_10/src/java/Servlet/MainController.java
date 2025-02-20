@@ -55,14 +55,14 @@ public class MainController extends HttpServlet {
                     if(isValidLogin(strUserID, strPassword)){
                         url ="search.jsp";
                         UserDTO user = getUser(strUserID);
-                        request.setAttribute("user", user);
+                        request.getSession().setAttribute("user", user);
                     }else{
                         request.setAttribute("message", "Incorrect UserID or Password");
-                        url ="login.jsp";
+                        url="login.jsp";
                     }
-                }else  if (action.equals("logout")) {
-                    request.setAttribute("user", null);
-                    url = "logout_confirm.jsp";
+                } else if (action.equals("logout")){
+                    request.getSession().setAttribute("user", null); //Cancelled Session
+                    url = "login.jsp";
                 }
             }
         } catch (Exception e) {

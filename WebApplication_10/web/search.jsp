@@ -15,17 +15,26 @@
     <body> 
         <%@include file="header.jsp" %>
         <div style="min-height: 500px; padding: 10px">
-            <%                UserDTO user = (UserDTO) request.getAttribute("user");
+            <%                
+                if(session.getAttribute("user")!=null){
+                UserDTO user = (UserDTO) session.getAttribute("user");
             %>
             <h1> Welcome <%=user.getFullname()%> </h1>
             <form action="MainController">
-                <input type="text" value
+                <input type="text" value="action" value="logout"/>
+                <input type="submit" value="logout"/>
             </form>
-            <a href="MainController?action=logout">Log out</a>
+            
+            <br/>
+            
             <form action="#">
                 Search Value: <input type="submit" name="txtSearchValue"/><br/>
                 <input type="submit" name="Search"/>
-            </form> <h1>Hello World!</h1>
+            </form>
+            
+            <%} else {%>
+                You do not have permission to access this content.
+            <%}%>
         </div>
         <jsp:include page="footer.jsp"/>
     </body>
