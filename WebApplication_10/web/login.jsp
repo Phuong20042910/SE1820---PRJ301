@@ -96,6 +96,11 @@
                     </div>
 
                     <button type="submit" class="submit-btn">Đăng nhập</button>
+                    
+                    <%
+                        String message = request.getAttribute("message")+ "";
+                    %>
+                    <%=message%>
                 </form>
             </div>
         </div>
