@@ -27,6 +27,8 @@
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                 width: 100%;
                 max-width: 400px;
+                margin-right: 700px;
+                right: 0;
             }
 
             .form-group {
@@ -103,5 +105,6 @@
                 </form>
             </div>
         </div>
+                    <%@include file="footer.jsp" %>
     </body>
 </html>
