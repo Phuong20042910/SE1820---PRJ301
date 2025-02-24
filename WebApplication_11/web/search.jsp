@@ -80,10 +80,14 @@
             </form>
 
             <br/>
-
+            
+            <%
+                String searchTerm = request.getAttribute("searchTerm")+ "";
+                searchTerm=searchTerm.equals("null")?"":searchTerm;
+            %>
             <form action="MainController">
                 <input type="hidden" name="action" value="search"/>
-                Search Books: <input type="text" name="searchTerm"/>
+                Search Books: <input type="text" name="searchTerm" value="<%=searchTerm%>"/>
                 <input type="submit" value="Search"/>
             </form>
 
@@ -124,5 +128,6 @@
             You do not have permission to access this content.
             <%}%>
         </div>
+            <%@include file="footer.jsp" %>
     </body>
 </html>
