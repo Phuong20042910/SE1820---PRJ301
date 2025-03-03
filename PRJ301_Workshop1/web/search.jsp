@@ -87,10 +87,10 @@
                 searchTerm=searchTerm.equals("null")?"":searchTerm;
             %>
            <form action="MainController">
-    <input type="hidden" name="action" value="search"/>
-    Search Projects: <input type="text" name="searchTerm" value="<%=request.getAttribute("searchTerm")%>"/>
-    <input type="submit" value="Search"/>
-</form>
+            <input type="hidden" name="action" value="search"/>
+            Search Projects: <input type="text" name="searchTerm" value="<%=request.getAttribute("searchTerm")%>"/>
+            <input type="submit" value="Search"/>
+            </form>
 
 <%
     if (request.getAttribute("projects") != null) {

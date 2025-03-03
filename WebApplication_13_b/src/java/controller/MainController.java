@@ -29,7 +29,7 @@ import utils.AuthUtils;
 public class MainController extends HttpServlet {
     private BookDAO bookDAO = new BookDAO();
     private static final String LOGIN_PAGE = "login.jsp";
-    public String processLogin(HttpServletRequest request, HttpServletResponse response)
+    private String processLogin(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = LOGIN_PAGE;
         //
@@ -40,7 +40,7 @@ public class MainController extends HttpServlet {
                         UserDTO user = AuthUtils.getUser(strUserID);
                         request.getSession().setAttribute("user", user);
 
-                        processLogin(request, response);
+                        processSearch(request, response);
                     }else{
                         request.setAttribute("message", "Incorrect UserID or Password. Please try again");
                         url = "login.jsp";
@@ -49,7 +49,7 @@ public class MainController extends HttpServlet {
     }              
     
     
-    public String processLogout(HttpServletRequest request, HttpServletResponse response)
+    private String processLogout(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = LOGIN_PAGE;
         //
@@ -93,7 +93,7 @@ public class MainController extends HttpServlet {
             throws ServletException, IOException {
         String url = LOGIN_PAGE;
         HttpSession session = request.getSession();
-        if (AuthUtils.isLoggedIn(session)) {
+        if (AuthUtils.isAdmin(session)) {
             // search
             String id = request.getParameter("id");
                     bookDAO.updateQuantityToZero(id);
@@ -108,25 +108,9 @@ public class MainController extends HttpServlet {
             throws ServletException, IOException {
         String url = LOGIN_PAGE;
         HttpSession session = request.getSession();
-        if (AuthUtils.isLoggedIn(session)) {
-            try {
-            String action = request.getParameter("action");
-            System.out.println("action: " +action);
-            if(action==null){
-                url = LOGIN_PAGE;
-            } else {
-                if(action.equals("login")){
-                    url = processLogin(request, response);
-                    
-                }else if(action.equals("logout")){
-                    url = processLogout(request, response);
-                }else if(action.equals("search")){
-                   url = processSearch(request, response);
-                }else if(action.equals("delete")){
-                    url = processDelete(request,response);
-                }else if(action.equals("add")){
-                    try {
-                        boolean checkError = false;
+        if (AuthUtils.isAdmin(session)) {
+            try{
+                    boolean checkError = false;
 
                     String bookID = request.getParameter("txtBookID");
                     String title = request.getParameter("txtTitle");
@@ -158,9 +142,9 @@ public class MainController extends HttpServlet {
                     }catch(Exception e){
                     }
                 }
-        }
-        
-    }    
+                   return url;
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -173,7 +157,6 @@ public class MainController extends HttpServlet {
             } else {
                 if(action.equals("login")){
                     url = processLogin(request, response);
-                    
                 }else if(action.equals("logout")){
                     url = processLogout(request, response);
                 }else if(action.equals("search")){
@@ -181,38 +164,7 @@ public class MainController extends HttpServlet {
                 }else if(action.equals("delete")){
                     url = processDelete(request,response);
                 }else if(action.equals("add")){
-                    try {
-                        boolean checkError = false;
-
-                    String bookID = request.getParameter("txtBookID");
-                    String title = request.getParameter("txtTitle");
-                    String author = request.getParameter("txtAuthor");
-                    int publishYear = Integer.parseInt(request.getParameter("txtPublishYear"));
-                    double price = Double.parseDouble(request.getParameter("txtPrice"));
-                    int quantity = Integer.parseInt(request.getParameter("txtQuantity"));
-
-                    if(bookID == null || bookID.trim().isEmpty()){
-                        checkError = true;
-                        request.setAttribute("txtBookID_error","Book ID cannot be empty.");
-                    }
-
-                    if(quantity < 0){
-                        checkError = true;
-                        request.setAttribute("txtQuantity_error", "Quantity >=0.");
-                    }
-
-                    BookDTO book = new BookDTO(bookID, title, author, publishYear, price, quantity);
-
-                    if(!checkError){
-                        bookDAO.create(book);
-                        search(request, response);
-                        url = "search.jsp";
-                    } else {
-                        url = "bookForm.jsp";
-                        request.setAttribute("book", book);
-                    }
-                    }catch(Exception e){
-                    }
+                    url = processAdd(request, response);
                 }
             }
         } catch(Exception e ){

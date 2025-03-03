@@ -71,19 +71,19 @@ public class UserDAO implements IDAO<UserDTO, String> {
     }
 
     @Override
-    public UserDTO readById(String id) {
+    public UserDTO readById(String Username) {
         String sql = "SELECT * FROM tblUser WHERE Username= ?";
         try {
             Connection conn = DBUtils.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, id);
+            ps.setString(1, Username);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 UserDTO user = new UserDTO(
-                        rs.getString("userID"),
-                        rs.getString("fullName"),
-                        rs.getString("roleID"),
-                        rs.getString("password"));
+                        rs.getString("Username"),
+                        rs.getString("Name"),
+                        rs.getString("Password"),
+                        rs.getString("Role"));
                 return user;
             }
         } catch (ClassNotFoundException ex) {
@@ -140,10 +140,10 @@ public class UserDAO implements IDAO<UserDTO, String> {
     @Override
     public List<UserDTO> search(String searchTerm) {
         List<UserDTO> list = new ArrayList<>();
-        String sql = "SELECT [Username], [fullName], [roleID], [password] FROM [tblUsers] "
-                + "WHERE [userID] LIKE ? "
-                + "OR [fullName] LIKE ? "
-                + "OR [roleID] LIKE ?";
+        String sql = "SELECT [Username], [Name], [Password], [Role] FROM [tblUser] "
+                + "WHERE [Username] LIKE ? "
+                + "OR [Name] LIKE ? "
+                + "OR [Role] LIKE ?";
 
         try (Connection conn = DBUtils.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -157,10 +157,10 @@ public class UserDAO implements IDAO<UserDTO, String> {
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     UserDTO user = new UserDTO(
-                            rs.getString("userID"),
-                            rs.getString("fullName"),
-                            rs.getString("roleID"),
-                            rs.getString("password")
+                            rs.getString("Username"),
+                            rs.getString("Name"),
+                            rs.getString("Password"),
+                            rs.getString("Role")
                     );
                     list.add(user);
                 }

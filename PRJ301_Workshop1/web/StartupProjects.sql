@@ -9,12 +9,13 @@
  */
 
 CREATE TABLE tblStartupProjects (
-    project_id INT PRIMARY KEY Identity(1,1),
+    project_id INT PRIMARY KEY IDENTITY(1,1),
     project_name VARCHAR(100) NOT NULL,
     Description TEXT,
     Status VARCHAR(20) NOT NULL CHECK (Status IN ('Ideation', 'Development', 'Launch', 'Scaling')),
     estimated_launch DATE NOT NULL
 );
+
 
 INSERT INTO tblStartupProjects (project_name, Description, Status, estimated_launch)
 VALUES 

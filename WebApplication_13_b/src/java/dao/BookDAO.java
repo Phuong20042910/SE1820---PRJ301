@@ -9,8 +9,11 @@ import dto.BookDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utils.DBUtils;
 
 /**
@@ -21,7 +24,25 @@ public class BookDAO implements IDAO<BookDTO, String>{
 
     @Override
     public boolean create(BookDTO entity) {
-         return false;
+         String sql = "INSERT INTO tblBooks"+ 
+                 "(BookID, Title, Author, PublishYear, Price, Quantity)"+
+                 "VALUES(?,?,?,?,?,?)";
+         try {
+             Connection conn = DBUtils.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ps.setString(1, entity.getBookID());
+             ps.setString(2, entity.getTitle());
+             ps.setString(3, entity.getAuthor());
+             ps.setInt(4, entity.getPublishYear());
+             ps.setDouble(5, entity.getPrice());
+             ps.setInt(6, entity.getQuantity());
+             int i = ps.executeUpdate();
+             return i > 0;
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        return false;
     }
 
     @Override
