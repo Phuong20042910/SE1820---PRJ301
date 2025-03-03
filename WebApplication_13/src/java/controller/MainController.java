@@ -18,7 +18,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -85,35 +84,18 @@ public class MainController extends HttpServlet {
                         url = "login.jsp";
                     }
                 }else if(action.equals("logout")){
-                    HttpSession session = request.getSession();
-                    if(session.getAttribute("user") != null){
-                        request.getSession().invalidate();
-                        url = "login.jsp";
-                    }
-                    
+                    request.getSession().invalidate();
+                    url = "login.jsp";
                 }else if(action.equals("search")){
-                    HttpSession session = request.getSession();
-                    if(session.getAttribute("user") != null){
                     search(request, response);
                     url = "search.jsp";
-                }   
                 }else if(action.equals("delete")){
-                    HttpSession session = request.getSession();
-                    if(session.getAttribute("user") != null){
-                        UserDTO user =(UserDTO) session.getAttribute("user");
-                    if(user.getRoleID().equals("AD")){    
                     String id = request.getParameter("id");
                     bookDAO.updateQuantityToZero(id);
                     //search
                     search(request, response);
                     url = "search.jsp";
-                    }
-                }    
                 }else if(action.equals("add")){
-                    HttpSession session = request.getSession();
-                    if(session.getAttribute("user") != null){
-                        UserDTO user =(UserDTO) session.getAttribute("user");
-                    if(user.getRoleID().equals("AD")){    
                     try {
                         boolean checkError = false;
                         
@@ -148,8 +130,6 @@ public class MainController extends HttpServlet {
                     }
                 }
             }
-          }
-        }    
         } catch(Exception e ){
             log("Error at MainController: " + e.toString());
         } finally {
