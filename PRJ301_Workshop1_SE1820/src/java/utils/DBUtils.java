@@ -9,16 +9,15 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
- * @author tungi
+ * @author THANH PHUONG
  */
 public class DBUtils implements Serializable{
-    private static final String DB_NAME = "Workshop1_PRJ301";
+    private static final String DB_NAME = "Prj301_WORKSHOP1_SE1820";
     private static final String DB_USERNAME = "sa";
     private static final String DB_PASSWORD= "12345";
     

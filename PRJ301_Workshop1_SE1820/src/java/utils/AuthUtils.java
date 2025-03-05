@@ -14,36 +14,32 @@ import javax.servlet.http.HttpSession;
  * @author THANH PHUONG
  */
 public class AuthUtils {
-    public static final String ADMIN_ROLE = "AD";
-    public static final String USER_TOLE = "US";
     
-    public static UserDTO getUser(String strUsername){
+    public static final String FOUNDER_ROLE = "Founder";
+    public static final String MEMBER_ROLE = "Team Member";
+    
+    public static UserDTO getUser(String strUserName){
         UserDAO udao = new UserDAO();
-        UserDTO user = udao.readById(strUsername);
+        UserDTO user = udao.readByID(strUserName);
         return user;
     }
     
-    public static boolean isValidLogin(String strUsername, String strPassword){
-        UserDTO user = getUser(strUsername);
+    public static boolean isValidLogin(String strUserName, String strPassword){
+        UserDTO user = getUser(strUserName);
         System.out.println(user);
         System.out.println(strPassword);
         return user != null && user.getPassword().equals(strPassword);
     }
     
-    public static UserDTO getUser(HttpSession session){
-        Object obj = session.getAttribute("user");
-        return (obj!=null)?(UserDTO)obj:null;
-    }
-    
     public static boolean isLoggedIn(HttpSession session){
-        return session.getAttribute("user")!=null;
+        return session.getAttribute("user") != null;
     }
     
-    public static boolean isAdmin(HttpSession session){
+    public static boolean isFounder(HttpSession session){
         if(!isLoggedIn(session)){
             return false;
         }
         UserDTO user = (UserDTO)session.getAttribute("user");
-        return user.getRole().equals(ADMIN_ROLE);
+        return user.getRole().equals(FOUNDER_ROLE);
     }
 }
