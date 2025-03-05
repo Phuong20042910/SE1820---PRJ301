@@ -31,6 +31,10 @@ public class AuthUtils {
         return user != null && user.getPassword().equals(strPassword);
     }
     
+    public static UserDTO getUser(HttpSession session){
+        Object obj = session.getAttribute("user");
+        return (obj != null) ? (UserDTO)obj : null;
+    }
     public static boolean isLoggedIn(HttpSession session){
         return session.getAttribute("user") != null;
     }

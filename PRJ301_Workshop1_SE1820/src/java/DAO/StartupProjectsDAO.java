@@ -109,4 +109,25 @@ public class StartupProjectsDAO implements IDAO<StartupProjectsDTO, String>{
         }
         return false;
     }
-}
+
+    public boolean addProjects(StartupProjectsDTO projects) {
+        String sql = "INSERT INTO tblStartupProjects(project_name, Description, Status, estimated_launch) "
+                + "VALUES (?, ?, ?, ?)";
+        
+        try {
+           Connection conn = DBUtils.getConnection();
+           PreparedStatement ps = conn.prepareStatement(sql);
+           ps.setString(1, projects.getProjectName());
+           ps.setString(2, projects.getDescription());
+           ps.setString(3, projects.getStatus());
+           ps.setDate(4, projects.getEstimatedLaunch());
+           int n = ps.executeUpdate();
+           return n > 0;
+    }   catch (ClassNotFoundException ex) {
+            Logger.getLogger(StartupProjectsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(StartupProjectsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+}    

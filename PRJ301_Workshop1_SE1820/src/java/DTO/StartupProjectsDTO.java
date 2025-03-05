@@ -21,6 +21,7 @@ public class StartupProjectsDTO {
     private Date estimatedLaunch;
 
     public StartupProjectsDTO() {
+        this.projectId = 0;
         this.projectName = "";
         this.description= "";
         this.status = "";
@@ -30,6 +31,13 @@ public class StartupProjectsDTO {
     public StartupProjectsDTO(int projectId, String projectName, String description, String status, Date estimatedLaunch) {
         this.projectId = projectId;
         this.projectName = projectName;
+        this.description = description;
+        this.status = status;
+        this.estimatedLaunch = estimatedLaunch;
+    }
+
+    public StartupProjectsDTO(String project_Name, String description, String status, Date estimatedLaunch) {
+        this.projectName = project_Name;
         this.description = description;
         this.status = status;
         this.estimatedLaunch = estimatedLaunch;

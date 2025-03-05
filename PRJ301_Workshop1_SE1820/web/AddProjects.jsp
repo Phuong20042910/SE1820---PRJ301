@@ -4,6 +4,8 @@
     Author     : THANH PHUONG
 --%>
 
+<%@page import="DTO.UserDTO"%>
+<%@page import="utils.AuthUtils"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="DTO.StartupProjectsDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -14,6 +16,12 @@
         <title>Project Information</title>
     </head>
     <body>
+        <div class="page-content">
+        <%
+            if(AuthUtils.isLoggedIn(session)){
+                UserDTO user = AuthUtils.getUser(session);
+                if(AuthUtils.isFounder(session)){
+        %>    
         <% 
             StartupProjectsDTO projects = new StartupProjectsDTO();
             try {
@@ -98,8 +106,23 @@
                     <input type="submit" value="SAVE"/>
                     <input type="reset" value="RESET"/>
                 </div>
-            </form>
-                <a href="MainController?action=search" class="back-link">Back to Startup Projects List</a>     
+            < <a href="MainController?action=search" class="back-link">Back to Dash Board</a>
+            </div>
+            <%} 
+                else {%>
+            <div class="form-container error-container">
+                <h1>403 Error</h1>
+                <p>Your do not have permission to access this content</p>
+                <a href="MainControler?action=dashboard" class="back-link">Back to Dash Board</a>
+            </div>
+            <%}
+                } else {%>
+            <div class="form-container error-container">
+                <h1>Access Denied</h1>
+                <p>Please log in to access this page.</p>
+                <a href="login.jsp" class="back-link">Go to Login</a>
+            </div>
+            <%}%>    
         </div>
     </body>
 </html>

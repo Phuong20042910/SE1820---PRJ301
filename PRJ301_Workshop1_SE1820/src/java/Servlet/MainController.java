@@ -108,13 +108,13 @@ public class MainController extends HttpServlet {
                 boolean checkError = false;
                 
                
-                String projectName = request.getParameter("txtProjectName");
+                String project_Name = request.getParameter("txtProjectName");
                 String description = request.getParameter("txtDescription");
                 String status = request.getParameter("txtStatus");
                 String estimatedLaunchstr = request.getParameter("txtEstimatedLaunch");
                 Date estimatedLaunch = null;
                 
-                if(projectName == null || projectName.trim().isEmpty()){
+                if(project_Name == null || project_Name.trim().isEmpty()){
                     checkError = true;
                     request.setAttribute("txtProjectID_error", "Project ID cannot be empty");
                 }
@@ -125,17 +125,17 @@ public class MainController extends HttpServlet {
                 }
                 
                 if(estimatedLaunchstr!= null && !estimatedLaunchstr.isEmpty()){
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
                     java.util.Date parsedDate = sdf.parse(estimatedLaunchstr);
                     estimatedLaunch = new java.sql.Date(parsedDate.getTime());  
                 }
                 
-                StartupProjectsDTO projects= new StartupProjectsDTO(projectName,description,status,estimatedLaunch);
+                StartupProjectsDTO projects= new StartupProjectsDTO(project_Name,description,status,estimatedLaunch);
                 
                 if(!checkError){
-                    spDAO.create(projects);
+                    spDAO.addProjects(projects);
                     url = processSearch(request, response);
-                    url = "search.jsp";
+                    
                 } else {
                     url = "AddProjects.jsp";
                     request.setAttribute("projects", projects);
