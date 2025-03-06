@@ -10,6 +10,7 @@
 <%@page import="java.util.List"%>
 <%@page import="dto.UserDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -75,7 +76,8 @@
                     UserDTO user = (UserDTO) session.getAttribute("user");
             %>
             
-
+            
+           
           
             <%
                 String searchTerm = request.getAttribute("searchTerm")+ "";
@@ -84,9 +86,9 @@
             <div class="search-section">
             <form action="MainController">
                 <input type="hidden" name="action" value="search"/>
-                <label for="searchInput">Search Books:</label>
-                Search Books: <input type="text" name="searchTerm" value="<%=searchTerm%>"/>
-                <input type="submit" value="Search" class="search-btn"/>
+                    <label for="searchInput">Search Books:</label>
+                    <input type="text" id="searchInput" name="searchTerm" value="<%=searchTerm%>" class="search-input" placeholder="Enter book title, author or ID..."/>
+                    <input type="submit" value="Search" class="search-btn"/>
             </form>
             </div>   
                 <% 

@@ -4,6 +4,7 @@
     Author     : THANH PHUONG
 --%>
 
+<%@page import="utils.AuthUtils"%>
 <%@page import="dto.UserDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
@@ -137,19 +138,21 @@
                     <input type="text" class="search-input" placeholder="Tìm kiếm...">
                     <button class="search-button">🔍</button>
                 </div>
-                <%                    if (session.getAttribute("user") != null) {
-                        UserDTO userHeader = (UserDTO) session.getAttribute("user");
+                <%  if (AuthUtils.isLoggedIn(session)) {
+                        UserDTO userHeader = AuthUtils.getUser(session);
 
                 %>
+                <c:if test="${not empty sessionScope.user}">
                 <div class="user-section">
-                    <span class="welcome-text">Xin chào, <span class="user-name"><%=userHeader.getFullName()%></span>!</span>
+                    <span class="welcome-text">Xin chào, <span class="user-name">${user.fullName}</span>!</span>
                     <form action="MainController" method="post" style="margin: 0;">
                         <input type="hidden" name="action" value="logout"/>
                         <input type="submit" value="Đăng xuất" class="logout-btn"/>
                     </form>
                 </div>
+                 </c:if>
                 <%}%>
-            </div>
+             </div>
         </nav>
     </div>
 </header>

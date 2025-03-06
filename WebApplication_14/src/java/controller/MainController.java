@@ -81,7 +81,10 @@ public class MainController extends HttpServlet {
             String searchTerm = request.getParameter("searchTerm");
             if (searchTerm == null) {
                 searchTerm = "";
+            }else{
+                searchTerm = searchTerm.trim();
             }
+            url = "search.jsp";
             List<BookDTO> books = bookDAO.searchByTitle2(searchTerm);
             request.setAttribute("books", books);
             request.setAttribute("searchTerm", searchTerm);
