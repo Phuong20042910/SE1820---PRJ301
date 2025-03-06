@@ -14,7 +14,6 @@
             body {
                 background-color: #007bff;
                 font-family: Arial, sans-serif;
-                display: flex;
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
@@ -79,7 +78,8 @@
         
     </head>
     <body>     
-            <form action="MainController" method="post">
+        <%@include file="header.jsp" %>    
+        <form action="MainController" method="post">
                 <h2 class="Login-Title">Đăng Nhập</h2>
                 <div class="login-form">
                     <input type="hidden" name="action" id="action" value="login"/>
@@ -100,6 +100,6 @@
                 </div>
             </form>
             
-              
+                    <%@include file="footer.jsp" %>     
     </body>
 </html>

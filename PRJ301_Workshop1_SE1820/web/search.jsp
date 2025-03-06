@@ -106,7 +106,7 @@
         </style>
     </head>
     <body>
-        
+        <%@include file = "header.jsp" %>
         <div style="min-height: 500px; padding: 10px">
             <% 
                 UserDTO user = (session != null) ? (UserDTO) session.getAttribute("user") : null;
@@ -183,6 +183,7 @@
                 <p>You do not have permission to access this content.</p>
             <% } %>
         </div>
+            <%@include file="footer.jsp" %>
     </body>
 </html>
 
