@@ -46,9 +46,10 @@
         %>
         <div class="container">
             <h1>PROJECT INFORMATION</h1>
+            <form action="Main Controller" method="post">
             <input type="hidden" name="action" value="add"/>
             
-            <form action="Main Controller" method="post">
+            
                 <div class="form-group">
                     <label for="txtProjectId">Project Id:</label>
                     <input type="text" id="txtProjectId" name="txtProjectId" value="<%=projects.getProjectId()%>"/>
@@ -106,14 +107,16 @@
                     <input type="submit" value="SAVE"/>
                     <input type="reset" value="RESET"/>
                 </div>
+                </form>
             < <a href="MainController?action=search" class="back-link">Back to Dash Board</a>
             </div>
+                
             <%} 
                 else {%>
             <div class="form-container error-container">
                 <h1>403 Error</h1>
                 <p>Your do not have permission to access this content</p>
-                <a href="MainControler?action=dashboard" class="back-link">Back to Dash Board</a>
+                <a href="MainControler?action=search" class="back-link">Back to Dash Board</a>
             </div>
             <%}
                 } else {%>
@@ -124,5 +127,6 @@
             </div>
             <%}%>    
         </div>
+        
     </body>
 </html>

@@ -32,7 +32,7 @@ import utils.AuthUtils;
 @WebServlet(name = "MainController", urlPatterns = {"/MainController"})
 public class MainController extends HttpServlet {
     private static final String LOGIN_PAGE = "login.jsp";
-    private static final String DASHBOARD_PAGE = "search.jsp";
+    private static final String DashBoard_PAGE = "search.jsp";
     private StartupProjectsDAO spDAO = new StartupProjectsDAO();
     
     private String processLogin (HttpServletRequest request, HttpServletResponse response)
@@ -135,6 +135,7 @@ public class MainController extends HttpServlet {
                 if(!checkError){
                     spDAO.addProjects(projects);
                     url = processSearch(request, response);
+                    url = "search.jsp";
                     
                 } else {
                     url = "AddProjects.jsp";

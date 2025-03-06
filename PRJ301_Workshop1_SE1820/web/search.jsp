@@ -13,7 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Dash Board</title>
+        <title>DashBoard_PAGE</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -106,6 +106,7 @@
         </style>
     </head>
     <body>
+        
         <div style="min-height: 500px; padding: 10px">
             <% 
                 UserDTO user = (session != null) ? (UserDTO) session.getAttribute("user") : null;
@@ -130,7 +131,7 @@
             <%
                 if(AuthUtils.isFounder(session)){
             %>
-                <a href="addProjects.jsp" class="add-btn">Add Project</a>
+                <a href="AddProjects.jsp" class="add-btn">Add Project</a>
             <% }%>
             <% 
                 List<StartupProjectsDTO> projects = (List<StartupProjectsDTO>) request.getAttribute("projects");

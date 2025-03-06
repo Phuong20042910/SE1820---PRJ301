@@ -7,12 +7,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Đăng Nhập</title>
     <head>
         <style>
             body {
-                background-image: url('images/z6356433591562_7559b4a02068fdc71cf79b652c3e79ba-processed(lightpdf.com).jpg');
+                background-color: #007bff;
                 font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -75,12 +76,9 @@
                 margin-top: 10px;
             }
         </style>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Đăng Nhập</title>
-    </head>
-    <body>
         
-            
+    </head>
+    <body>     
             <form action="MainController" method="post">
                 <h2 class="Login-Title">Đăng Nhập</h2>
                 <div class="login-form">
@@ -102,7 +100,6 @@
                 </div>
             </form>
             
-            
-        
+              
     </body>
 </html>
