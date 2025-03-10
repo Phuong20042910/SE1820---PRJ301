@@ -27,45 +27,51 @@ import utils.AuthUtils;
  */
 @WebServlet(name = "MainController", urlPatterns = {"/MainController"})
 public class MainController extends HttpServlet {
-
     private BookDAO bookDAO = new BookDAO();
-
     private static final String LOGIN_PAGE = "login.jsp";
-
     private String processLogin(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = LOGIN_PAGE;
         //
         String strUserID = request.getParameter("txtUserID");
-        String strPassword = request.getParameter("txtPassword");
-        if (AuthUtils.isValidLogin(strUserID, strPassword)) {
-            url = "search.jsp";
-            UserDTO user = AuthUtils.getUser(strUserID);
-            request.getSession().setAttribute("user", user);
+                    String strPassword = request.getParameter("txtPassword");
+                    if(AuthUtils.isValidLogin(strUserID, strPassword)){
+                        url = "search.jsp";
+                        UserDTO user = AuthUtils.getUser(strUserID);
+                        request.getSession().setAttribute("user", user);
 
-            // search
-            processSearch(request, response);
-        } else {
-            request.setAttribute("message", "Incorrect UserID or Password");
-            url = "login.jsp";
-        }
-        //
-        return url;
-    }
-
+                        url = "search.jsp";
+                        processSearch(request, response);
+                    }else{
+                        request.setAttribute("message", "Incorrect UserID or Password. Please try again");
+                        url = "login.jsp";
+                    }
+                    return url;
+    }              
+    
+    
     private String processLogout(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = LOGIN_PAGE;
         //
         HttpSession session = request.getSession();
-        if (AuthUtils.isLoggedIn(session)) {
-            request.getSession().invalidate(); // Hủy bỏ session
-            url = "login.jsp";
-        }
-        //
-        return url;
-    }
-
+                    if(AuthUtils.isLoggedIn(session)){
+                    request.getSession().invalidate();
+                    url = "login.jsp";
+                    }
+                    return url;
+    }            
+    
+    
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     public String processSearch(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = LOGIN_PAGE;
@@ -75,67 +81,71 @@ public class MainController extends HttpServlet {
             String searchTerm = request.getParameter("searchTerm");
             if (searchTerm == null) {
                 searchTerm = "";
+            }else{
+                searchTerm = searchTerm.trim();
             }
+            url = "search.jsp";
             List<BookDTO> books = bookDAO.searchByTitle2(searchTerm);
             request.setAttribute("books", books);
             request.setAttribute("searchTerm", searchTerm);
         }
-        url = "search.jsp";
         return url;
     }
-
+    
     public String processDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = LOGIN_PAGE;
         HttpSession session = request.getSession();
         if (AuthUtils.isAdmin(session)) {
-            String id = request.getParameter("id");
-            bookDAO.updateQuantityToZero(id);
             // search
-            processSearch(request, response);
-            url = "search.jsp";
-        }
+            String id = request.getParameter("id");
+                    bookDAO.updateQuantityToZero(id);
+                    //search
+                    processSearch(request, response);
+                    url = "search.jsp";
+        }            
         return url;
     }
-
+    
     public String processAdd(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = LOGIN_PAGE;
         HttpSession session = request.getSession();
         if (AuthUtils.isAdmin(session)) {
-            try {
-                boolean checkError = false;
-                String bookID = request.getParameter("txtBookID");
-                String title = request.getParameter("txtTitle");
-                String author = request.getParameter("txtAuthor");
-                int publishYear = Integer.parseInt(request.getParameter("txtPublishYear"));
-                double price = Double.parseDouble(request.getParameter("txtPrice"));
-                int quantity = Integer.parseInt(request.getParameter("txtQuantity"));
+            try{
+                    boolean checkError = false;
 
-                if (bookID == null || bookID.trim().isEmpty()) {
-                    checkError = true;
-                    request.setAttribute("txtBookID_error", "Book ID cannot be empty.");
+                    String bookID = request.getParameter("txtBookID");
+                    String title = request.getParameter("txtTitle");
+                    String author = request.getParameter("txtAuthor");
+                    int publishYear = Integer.parseInt(request.getParameter("txtPublishYear"));
+                    double price = Double.parseDouble(request.getParameter("txtPrice"));
+                    int quantity = Integer.parseInt(request.getParameter("txtQuantity"));
+
+                    if(bookID == null || bookID.trim().isEmpty()){
+                        checkError = true;
+                        request.setAttribute("txtBookID_error","Book ID cannot be empty.");
+                    }
+
+                    if(quantity < 0){
+                        checkError = true;
+                        request.setAttribute("txtQuantity_error", "Quantity >=0.");
+                    }
+
+                    BookDTO book = new BookDTO(bookID, title, author, publishYear, price, quantity);
+
+                    if(!checkError){
+                        bookDAO.create(book);
+                        url = "search.jsp";
+                        url = processSearch(request, response);
+                    } else {
+                        url = "bookForm.jsp";
+                        request.setAttribute("book", book);
+                    }
+                    }catch(Exception e){
+                    }
                 }
-
-                if (quantity < 0) {
-                    checkError = true;
-                    request.setAttribute("txtQuantity_error", "Quantity >=0.");
-                }
-
-                BookDTO book = new BookDTO(bookID, title, author, publishYear, price, quantity);
-
-                if (!checkError) {
-                    bookDAO.create(book);
-                    // search
-                    url = processSearch(request, response);
-                } else {
-                    url = "bookForm.jsp";
-                    request.setAttribute("book", book);
-                }
-            } catch (Exception e) {
-            }
-        }
-        return url;
+                   return url;
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -144,31 +154,32 @@ public class MainController extends HttpServlet {
         String url = LOGIN_PAGE;
         try {
             String action = request.getParameter("action");
-            System.out.println("action: " + action);
-            if (action == null) {
+            System.out.println("action: " +action);
+            if(action==null){
                 url = LOGIN_PAGE;
             } else {
-                if (action.equals("login")) {
+                if(action.equals("login")){
                     url = processLogin(request, response);
-                } else if (action.equals("logout")) {
+                }else if(action.equals("logout")){
                     url = processLogout(request, response);
-                } else if (action.equals("search")) {
-                    url = processSearch(request, response);
-                } else if (action.equals("delete")) {
-                    url = processDelete(request, response);
-                } else if (action.equals("add")) {
+                }else if(action.equals("search")){
+                   url = processSearch(request, response);
+                }else if(action.equals("delete")){
+                    url = processDelete(request,response);
+                }else if(action.equals("add")){
                     url = processAdd(request, response);
                 }
             }
-        } catch (Exception e) {
+        } catch(Exception e ){
             log("Error at MainController: " + e.toString());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         }
+
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

@@ -169,16 +169,38 @@
         <jsp:include page="header.jsp"/>
 
         <div class="page-content">
-            <c:set var="isLoggedIn" value="<%=AuthUtils.isLoggedIn(session)%>"/>
-            <c:set var="isAdmin" value="<%=AuthUtils.isAdmin(session)%>"/>
-            <c:if test="${isAdmin}">
+            <%if(AuthUtils.isAdmin(session)) {%>
                 
             <div class="form-container">
                 <h1>Book Information</h1>
-                <jsp:useBean id = "book" class="dto.BookDTO" scope="request">
+                
+                <!-- Hiển thị thông báo thành công nếu có -->
+                <c:if test="${not empty requestScope.sucess}">
+                    <div class="success-message">${requestScope.success}</div>
+                </c:if>
+                <!-- Hiển thị thông báo lỗi nếu có -->
+                <c:if test="${not empty requestScope.success}">
+                    <div class="error-container">
+                        <p>${requestScope.error}</p> 
+                    </div>
+                </c:if>    
+                
+                <%
+                    BookDTO book = new BookDTO();
+                    if(request.getAttribute("book")== null){
+                        request.setAttribute("book", new BookDTO());
+                        book = new BookDTO();
+                    } else {
+                        book = (BookDTO) request.getAttribute("book");
+                    }
+                    
+                    String action = request.getAttribute("action")+"";
+                    if(!action.equals("update")){
+                        action = "add";
+                    }
+                %>
+                
                 <form action="MainController" method="post">
-                    <input type="hidden" name="action" value="add"/>
-
                     <div class="form-group">
                         <label for="txtBookID">Book ID:</label>
                         <input type="text" id="txtBookID" name="txtBookID" value="${book.bookID}"/>
@@ -223,19 +245,28 @@
                         <input type="reset" value="Reset"/>
                     </div>
                 </form>
-                </jsp:useBean>
                 <a href="MainController?action=search" class="back-link">Back to Book List</a>
             </div>
-            </c:if>
-            <c:if test="${!isLoggedIn}">
+                        <% else {%>
+            
             <div class="form-container error-container">
                 <h1>403 Error</h1>
                 <p>You do not have permission to access this content!</p>
                 <a href="MainController?action=search" class="back-link">Back to Book List</a>
             </div>
-            </c:if>
+            <% }%>
         </div>
 
         <jsp:include page="footer.jsp"/>
+        
+        <script>
+            // JavaScript để cải thiện trải nghiệm  người dừng
+            document.addEventListener('DOMContentLoaded', function(){
+                //Preview image when URL is entered
+                document.getElementById('txtImage').addEventListener('input', function() {
+                    const imageUrl = this.value.trim();
+                }
+            }
+        </script>
     </body>
 </html>
